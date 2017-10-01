@@ -5,7 +5,7 @@
 
         <div class="field">
             <p class="control">
-                <input v-model="passCode" class="input" type="text" placeholder="인증코드">
+                <input v-model="passCode" class="input" type="password" placeholder="인증코드">
             </p>
         </div>
 
