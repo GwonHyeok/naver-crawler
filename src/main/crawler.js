@@ -4,7 +4,7 @@ const StoreFarmCrawler = require('cl-naver-crawler/crawler/storefarm')
 const json2csv = require('json2csv')
 const fs = require('fs')
 
-module.exports = class Crawler {
+export default class Crawler {
   getBusinessCrawler (keyword) {
     return new Builder()
       .setCrawler(BusinessCrawler)

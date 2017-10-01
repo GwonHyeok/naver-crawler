@@ -1,6 +1,7 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
+import Crawler from './crawler'
 
 /**
  * Set `__static` path to static files in production
@@ -65,3 +66,34 @@ app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
  */
+
+ipcMain.on('start-crawler', (event, {keyword}) => {
+  const crawlerInstance = new Crawler()
+  const crawler = crawlerInstance.getBusinessCrawler(keyword)
+
+  // 크롤링 성공
+  crawler.on('success', () => {
+    setTimeout(() => {
+      // 로컬 아이템 업데이트
+      event.sender.send('success-crawler', {items: crawler.items})
+      event.sender.send('complete-crawler')
+    }, 500)
+  })
+
+  // 크롤링 진행 상황
+  crawler.on('progress', ({progress}) => {
+    event.sender.send('progress-crawler', {progress})
+  })
+
+  // 크롤링 에러
+  crawler.on('error', error => {
+    event.sender.send('error-crawler', error)
+    event.sender.send('complete-crawler')
+  })
+
+  // 크롤링 실행
+  crawler.run()
+
+  // 크롤링 시작
+  event.sender.send('started-crawler', crawler)
+})

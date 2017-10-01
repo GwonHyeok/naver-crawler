@@ -81,26 +81,39 @@
         progress: 0
       }
     },
-    methods: {
-      search () {
+    mounted: function () {
+      this.$electron.ipcRenderer.on('started-crawler', () => {
+        console.log('started-crawler')
         this.isLoading = true
         this.progress = 0
-        const crawler = this.$crawler.getBusinessCrawler(this.keyword)
-        crawler.on('success', () => {
-          setTimeout(() => {
-            // 로컬 아이템 업데이트
-            this.items = crawler.items
-            this.isLoading = false
-          }, 500)
-        })
-        crawler.on('progress', ({progress}) => {
-          this.progress = progress
-        })
-        crawler.on('error', error => {
-          console.error(error)
-          this.isLoading = false
-        })
-        crawler.run()
+      })
+
+      this.$electron.ipcRenderer.on('progress-crawler', (event, {progress}) => {
+        console.log('progress-crawler')
+        this.progress = progress
+      })
+
+      this.$electron.ipcRenderer.on('success-crawler', (event, {items}) => {
+        console.log('success-crawler')
+        this.items = items
+      })
+
+      this.$electron.ipcRenderer.on('error-crawler', (event, error) => {
+        console.log('error-crawler')
+        console.error(error)
+      })
+
+      this.$electron.ipcRenderer.on('complete-crawler', () => {
+        console.log('complete-crawler')
+        this.isLoading = false
+      })
+    },
+    methods: {
+      search () {
+        this.startCrawler()
+      },
+      startCrawler () {
+        this.$electron.ipcRenderer.send('start-crawler', {type: 'business', keyword: this.keyword})
       },
       save () {
         console.log('save to csv')
