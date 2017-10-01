@@ -43,7 +43,7 @@
   }
 </script>
 
-<style>
+<style scoped>
     .container {
         padding-top: 25%;
         text-align: center;

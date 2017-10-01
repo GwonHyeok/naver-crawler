@@ -135,7 +135,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 
     .button {
         min-width: 100px;
