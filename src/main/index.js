@@ -121,7 +121,7 @@ ipcMain.on('save-to-csv', (event, {items, keyword, type}) => {
       if (minutes.length < 2) minutes = `0${minutes}`
 
       // 파일 이름
-      const fileName = `${year}${month}${day}_${hours}:${minutes}_${keyword}_${type}.csv`
+      const fileName = `${year}${month}${day}_${hours}${minutes}_${keyword}_${type}.csv`
 
       // 파일 저장 작업
       const filePath = filePaths[0]
