@@ -123,9 +123,20 @@ ipcMain.on('save-to-csv', (event, {items, keyword, type}) => {
       // 파일 이름
       const fileName = `${year}${month}${day}_${hours}${minutes}_${keyword}_${type}.csv`
 
+      const fields = []
+      const fieldNames = []
+
+      if (type === 'business') {
+        fieldNames.push(...['이름', '전화번호', '지번 주소', '도로명 주소', '공통 주소', '카테고리', '설명', '리뷰', '길찾기 URL', '태그'])
+        fields.push(...['name', 'phone', 'addr', 'roadAddr', 'commonAddr', 'category', 'desc', 'microReview', 'routeUrl', 'tags'])
+      } else if (type === 'storefarm') {
+        fieldNames.push(...['업체명', '스토어이름', '전화번호', '사업자형태', '대표이름', '주소', 'URL'])
+        fields.push(...['tradeName', 'storeName', 'contact', 'storeType', 'ceo', 'address', 'siteUri'])
+      }
+
       // 파일 저장 작업
       const filePath = filePaths[0]
-      const csv = json2csv({data: items, withBOM: true})
+      const csv = json2csv({data: items, withBOM: true, fields, fieldNames})
       fs.writeFile(`${filePath}/${fileName}`, csv, (error) => {
         if (error) return console.error(error)
         console.log('완료함')
