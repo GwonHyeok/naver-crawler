@@ -1,8 +1,8 @@
 {
   "name": "naver-crawler",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "GwonHyeok <me@ghyeok.io>",
-  "description": "An electron-vue project",
+  "description": "NaverCrawler",
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -19,8 +19,8 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "naver-crawler",
-    "appId": "org.simulatedgreg.electron-vue",
+    "productName": "NaverCrawler",
+    "appId": "io.ghyeok.naver-crawler",
     "directories": {
       "output": "build"
     },
