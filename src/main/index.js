@@ -125,7 +125,7 @@ ipcMain.on('save-to-csv', (event, {items, keyword, type}) => {
 
       // 파일 저장 작업
       const filePath = filePaths[0]
-      const csv = json2csv({data: items})
+      const csv = json2csv({data: items, withBOM: true})
       fs.writeFile(`${filePath}/${fileName}`, csv, (error) => {
         if (error) return console.error(error)
         console.log('완료함')
