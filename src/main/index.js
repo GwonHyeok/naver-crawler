@@ -1,7 +1,10 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import Crawler from './crawler'
+
+const json2csv = require('json2csv')
+const fs = require('fs')
 
 /**
  * Set `__static` path to static files in production
@@ -96,4 +99,39 @@ ipcMain.on('start-crawler', (event, {type, keyword}) => {
 
   // 크롤링 시작
   event.sender.send('started-crawler', crawler)
+})
+
+// CSV 파일 저장 요청
+ipcMain.on('save-to-csv', (event, {items, keyword, type}) => {
+  const options = {properties: ['openDirectory']}
+  dialog.showOpenDialog(mainWindow, options, (filePaths) => {
+    // 파일 경로가 제대로 넘어왔을 경우
+    if (filePaths.length > 0) {
+      // 파일 이름 생성
+      const date = new Date()
+      let month = `${date.getMonth() + 1}`
+      let day = `${date.getDate()}`
+      const year = `${date.getFullYear()}`
+      let hours = `${date.getHours()}`
+      let minutes = `${date.getMinutes()}`
+
+      if (month.length < 2) month = `0${month}`
+      if (day.length < 2) day = `0${day}`
+      if (hours.length < 2) hours = `0${hours}`
+      if (minutes.length < 2) minutes = `0${minutes}`
+
+      // 파일 이름
+      const fileName = `${year}${month}${day}_${hours}:${minutes}_${keyword}_${type}.csv`
+
+      // 파일 저장 작업
+      const filePath = filePaths[0]
+      const csv = json2csv({data: items})
+      fs.writeFile(`${filePath}/${fileName}`, csv, (error) => {
+        if (error) return console.error(error)
+        console.log('완료함')
+      })
+    } else {
+      console.error('사용자에 의해 취소됨')
+    }
+  })
 })

@@ -24,7 +24,9 @@
             </div>
 
             <!-- Progress -->
-            <progress class="progress is-medium" :class="{'is-primary': !this.isError, 'is-danger': this.isError}" v-bind:value="progress" max="100">{{progress}}%</progress>
+            <progress class="progress is-medium" :class="{'is-primary': !this.isError, 'is-danger': this.isError}"
+                      v-bind:value="progress" max="100">{{progress}}%
+            </progress>
 
             <!-- 검색결과 -->
             <div class="search-result">
@@ -150,10 +152,11 @@
         this.$electron.ipcRenderer.send('start-crawler', {type: this.selectedType, keyword: this.keyword})
       },
       save () {
-        console.log('save to csv')
-        this.$crawler.saveToCsv(this.items)
-          .then(result => console.log(result))
-          .catch(error => console.error(error))
+        this.$electron.ipcRenderer.send('save-to-csv', {
+          items: this.items,
+          keyword: this.keyword,
+          type: this.selectedType
+        })
       }
     }
   }
