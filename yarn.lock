@@ -1602,8 +1602,9 @@ circular-json@^0.3.1:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
 
-"cl-naver-crawler@file:/Users/ghyeok/WebstormProjects/cl-naver-crawler":
+cl-naver-crawler@^1.0.0:
   version "1.0.0"
+  resolved "https://registry.yarnpkg.com/cl-naver-crawler/-/cl-naver-crawler-1.0.0.tgz#05be1477f444b5bcefb03027fa3eaccd3ed0860e"
   dependencies:
     cheerio "^1.0.0-rc.2"
     request "^2.83.0"
@@ -6357,8 +6358,8 @@ to-fast-properties@^1.0.3:
   resolved "https://registry.yarnpkg.com/to-fast-properties/-/to-fast-properties-1.0.3.tgz#b83571fa4d8c25b82e231b06e3a3055de4ca1a47"
 
 toposort@^1.0.0:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/toposort/-/toposort-1.0.4.tgz#a86107690cbee8cae43b349d2f60162500924dfc"
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/toposort/-/toposort-1.0.6.tgz#c31748e55d210effc00fdcdc7d6e68d7d7bb9cec"
 
 tough-cookie@>=2.3.3, tough-cookie@~2.3.0, tough-cookie@~2.3.3:
   version "2.3.3"
