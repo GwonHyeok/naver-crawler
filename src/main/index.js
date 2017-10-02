@@ -67,9 +67,9 @@ app.on('ready', () => {
 })
  */
 
-ipcMain.on('start-crawler', (event, {keyword}) => {
+ipcMain.on('start-crawler', (event, {type, keyword}) => {
   const crawlerInstance = new Crawler()
-  const crawler = crawlerInstance.getBusinessCrawler(keyword)
+  const crawler = type === 'business' ? crawlerInstance.getBusinessCrawler(keyword) : crawlerInstance.getStoreFarmCrawler(keyword)
 
   // 크롤링 성공
   crawler.on('success', () => {

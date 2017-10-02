@@ -7,9 +7,8 @@
             <div class="field has-addons has-addons-centered">
                 <p class="control">
                     <span class="select">
-                        <select>
-                            <option>지도기반</option>
-                            <option>스토어팜</option>
+                        <select v-model="selectedType">
+                            <option v-for="item in crawlerTypes" :value="item.value">{{item.name}}</option>
                         </select>
                     </span>
                 </p>
@@ -25,7 +24,7 @@
             </div>
 
             <!-- Progress -->
-            <progress class="progress is-medium is-primary" v-bind:value="progress" max="100">{{progress}}%</progress>
+            <progress class="progress is-medium" :class="{'is-primary': !this.isError, 'is-danger': this.isError}" v-bind:value="progress" max="100">{{progress}}%</progress>
 
             <!-- 검색결과 -->
             <div class="search-result">
@@ -42,7 +41,8 @@
                     </div>
                 </div>
 
-                <table class="table">
+                <!-- 비지니스 타입 테이블-->
+                <table class="table" v-if="this.selectedType ==='business'">
                     <thead>
                     <tr>
                         <th><abbr title="Index">아이디</abbr></th>
@@ -59,6 +59,32 @@
                         <td>{{item.phone}}</td>
                         <td>{{item.roadAddr}}</td>
                         <td>{{item.category}}</td>
+                    </tr>
+                    </tbody>
+
+
+                </table>
+
+                <!-- 스토어팜 타입 테이블 -->
+                <table class="table" v-if="this.selectedType ==='storefarm'">
+                    <thead>
+                    <tr>
+                        <th>이름</th>
+                        <th>타입</th>
+                        <th>상호명</th>
+                        <th>대표</th>
+                        <th>연락처</th>
+                        <th>주소</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="item in items">
+                        <th><a target="_blank" :href="item.siteUri">{{item.storeName}}</a></th>
+                        <td>{{item.storeType}}</td>
+                        <td>{{item.tradeName}}</td>
+                        <td>{{item.ceo}}</td>
+                        <td>{{item.contact}}</td>
+                        <td>{{item.address}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -78,7 +104,13 @@
         keyword: '',
         items: [],
         isLoading: false,
-        progress: 0
+        isError: false,
+        progress: 0,
+        crawlerTypes: [
+          {name: '지도기반', value: 'business'},
+          {name: '스토어팜', value: 'storefarm'}
+        ],
+        selectedType: 'business'
       }
     },
     mounted: function () {
@@ -86,6 +118,7 @@
         console.log('started-crawler')
         this.isLoading = true
         this.progress = 0
+        this.isError = false
       })
 
       this.$electron.ipcRenderer.on('progress-crawler', (event, {progress}) => {
@@ -100,6 +133,7 @@
 
       this.$electron.ipcRenderer.on('error-crawler', (event, error) => {
         console.log('error-crawler')
+        this.isError = true
         console.error(error)
       })
 
@@ -113,7 +147,7 @@
         this.startCrawler()
       },
       startCrawler () {
-        this.$electron.ipcRenderer.send('start-crawler', {type: 'business', keyword: this.keyword})
+        this.$electron.ipcRenderer.send('start-crawler', {type: this.selectedType, keyword: this.keyword})
       },
       save () {
         console.log('save to csv')
