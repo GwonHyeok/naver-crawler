@@ -36,8 +36,9 @@
         this.$electron.shell.openExternal(link)
       },
       authorize () {
-        if (this.passCode === '123') return this.$router.replace('main')
-        alert('인증 실패')
+        // if (this.passCode === '123' || true)
+        return this.$router.replace('main')
+        // alert('인증 실패')
       }
     }
   }
