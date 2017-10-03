@@ -1602,9 +1602,9 @@ circular-json@^0.3.1:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
 
-cl-naver-crawler@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/cl-naver-crawler/-/cl-naver-crawler-1.0.4.tgz#f304a40289a29292c8cab05e8f6c6c125865af44"
+cl-naver-crawler@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/cl-naver-crawler/-/cl-naver-crawler-1.0.5.tgz#72e6c79c35d99073be7fc92536933716573fa55f"
   dependencies:
     cheerio "^1.0.0-rc.2"
     request "^2.83.0"
