@@ -10,10 +10,11 @@ export default class Crawler {
       .build()
   }
 
-  getStoreFarmCrawler (keyword) {
-    return new Builder()
+  getStoreFarmCrawler (keyword, category = null) {
+    const builder = new Builder()
       .setCrawler(StoreFarmCrawler)
       .setKeyword(keyword)
-      .build()
+    if (category) builder.setCategory(category)
+    return builder.build()
   }
 }

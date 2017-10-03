@@ -12,6 +12,13 @@
                         </select>
                     </span>
                 </p>
+                <p class="control" v-if="isSupportStoreFarmCategory && selectedType === 'storefarm'">
+                    <span class="select">
+                        <select v-model="selectedStoreFarmCategory">
+                            <option v-for="item in storeFarmCategories" :value="item.value">{{item.name}}</option>
+                        </select>
+                    </span>
+                </p>
                 <p class="control is-expanded">
                     <input class="input" type="text" placeholder="키워드를 입력해주세요" v-model="keyword">
                 </p>
@@ -112,7 +119,24 @@
           {name: '지도기반', value: 'business'},
           {name: '스토어팜', value: 'storefarm'}
         ],
-        selectedType: 'business'
+        selectedType: 'business',
+        isSupportStoreFarmCategory: true,
+        selectedStoreFarmCategory: '0_0',
+        storeFarmCategories: [
+          {name: '전체보기', value: '0_0'},
+          {name: '종합카테고리', value: 'C36000'},
+          {name: '패션의류', value: '50000000'},
+          {name: '패션잡화', value: '50000001'},
+          {name: '화장품⁄미용', value: '50000002'},
+          {name: '디지털⁄가전', value: '50000003'},
+          {name: '가구⁄인테리어', value: '50000004'},
+          {name: '출산⁄육아', value: '50000005'},
+          {name: '식품', value: '50000006'},
+          {name: '스포츠⁄레저', value: '50000007'},
+          {name: '생활⁄건강', value: '50000008'},
+          {name: '여행⁄문화', value: '50000009'},
+          {name: '면세점', value: '50000010'}
+        ]
       }
     },
     mounted: function () {
@@ -149,7 +173,11 @@
         this.startCrawler()
       },
       startCrawler () {
-        this.$electron.ipcRenderer.send('start-crawler', {type: this.selectedType, keyword: this.keyword})
+        this.$electron.ipcRenderer.send('start-crawler', {
+          type: this.selectedType,
+          keyword: this.keyword,
+          category: this.selectedStoreFarmCategory
+        })
       },
       save () {
         this.$electron.ipcRenderer.send('save-to-csv', {
