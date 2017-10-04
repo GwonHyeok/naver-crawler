@@ -22,6 +22,7 @@
 
 <script>
   import SystemInformation from './LandingPage/SystemInformation'
+  import { db } from '@/firebase'
 
   export default {
     name: 'landing-page',
@@ -31,14 +32,19 @@
         passCode: ''
       }
     },
+    firebase: {
+      dbAuthCodes: db.ref('authCodes')
+    },
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
       },
       authorize () {
-        // if (this.passCode === '123' || true)
-        return this.$router.replace('main')
-        // alert('인증 실패')
+        const authRef = this.$firebaseRefs.dbAuthCodes.orderByChild('code').equalTo(this.passCode)
+        authRef.on('value', snapShot => {
+          if (snapShot.val() !== null) return this.$router.replace('main')
+          alert('인증 실패')
+        })
       }
     }
   }
