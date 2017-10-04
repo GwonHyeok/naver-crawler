@@ -94,11 +94,24 @@ ipcMain.on('start-crawler', (event, {type, keyword, category}) => {
     event.sender.send('complete-crawler')
   })
 
+  // 크롤링 취소
+  crawler.on('cancel', () => {
+    event.sender.send('cancel-crawler')
+    event.sender.send('complete-crawler')
+  })
+
   // 크롤링 실행
   crawler.run()
 
   // 크롤링 시작
   event.sender.send('started-crawler', crawler)
+
+  // 현재 크롤러 설정
+  this.currentCrawler = crawler
+})
+
+ipcMain.on('stop-crawler', (event) => {
+  this.currentCrawler.stop()
 })
 
 // CSV 파일 저장 요청

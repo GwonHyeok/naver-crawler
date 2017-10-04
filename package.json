@@ -55,7 +55,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "bulma": "^0.5.3",
-    "cl-naver-crawler": "^1.0.5",
+    "cl-naver-crawler": "^1.0.6",
     "firebase": "^4.5.0",
     "json2csv": "^3.11.2",
     "vue": "^2.3.3",

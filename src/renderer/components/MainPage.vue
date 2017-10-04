@@ -26,6 +26,9 @@
                     <a class="button is-primary" v-bind:class="{'is-loading': this.isLoading}" @click="search">
                         검색
                     </a>
+                    <a class="button is-danger" v-if="this.isLoading" @click="stopCrawler">
+                        정지
+                    </a>
                 </p>
 
             </div>
@@ -140,11 +143,13 @@
       }
     },
     mounted: function () {
-      this.$electron.ipcRenderer.on('started-crawler', () => {
+      this.$electron.ipcRenderer.on('started-crawler', (event, crawler) => {
         console.log('started-crawler')
+        this.items.length = 0
         this.isLoading = true
         this.progress = 0
         this.isError = false
+        this.crawler = crawler
       })
 
       this.$electron.ipcRenderer.on('progress-crawler', (event, {progress}) => {
@@ -163,6 +168,10 @@
         console.error(error)
       })
 
+      this.$electron.ipcRenderer.on('cancel-crawler', (event) => {
+        this.isError = true
+      })
+
       this.$electron.ipcRenderer.on('complete-crawler', () => {
         console.log('complete-crawler')
         this.isLoading = false
@@ -178,6 +187,9 @@
           keyword: this.keyword,
           category: this.selectedStoreFarmCategory
         })
+      },
+      stopCrawler () {
+        this.$electron.ipcRenderer.send('stop-crawler')
       },
       save () {
         this.$electron.ipcRenderer.send('save-to-csv', {
