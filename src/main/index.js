@@ -2,6 +2,7 @@
 
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import Crawler from './crawler'
+import { machineIdSync } from 'node-machine-id'
 
 const json2csv = require('json2csv')
 const fs = require('fs')
@@ -158,4 +159,9 @@ ipcMain.on('save-to-csv', (event, {items, keyword, type}) => {
       console.error('사용자에 의해 취소됨')
     }
   })
+})
+
+// MacAddress 요청
+ipcMain.on('request-machine-id', (event) => {
+  event.sender.send('response-machine-id', machineIdSync())
 })

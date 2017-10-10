@@ -4706,6 +4706,10 @@ node-loader@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/node-loader/-/node-loader-0.6.0.tgz#c797ef51095ed5859902b157f6384f6361e05ae8"
 
+node-machine-id@^1.1.9:
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/node-machine-id/-/node-machine-id-1.1.9.tgz#811016b02a20c78cc461d37167d5c1deabe6aa05"
+
 node-pre-gyp@^0.6.36:
   version "0.6.38"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.38.tgz#e92a20f83416415bb4086f6d1fb78b3da73d113d"
